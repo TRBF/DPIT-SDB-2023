@@ -16,3 +16,11 @@ class Participant:
     def add_event(self, event_id):
         self.__events.append(event_id)
 
+    def __str__(self):
+        return f"Name: {self.__name}, Profile picture link: {self.__profile_picture_link}, Events: {[event for event in self.__events]}"
+    
+    def __repr__(self):
+        return str(self)
+
+    def __eq__(self, other):
+        return self.get_name() == other.get_name()

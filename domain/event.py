@@ -37,9 +37,8 @@ class Event:
 
     
     def __str__(self):
-        return f"Id: {self.__id}, Title: {self.__title}, City: {self.__city}, Number of participants: {
-        self.__number_of_participants}, Maximum number of participants: {self.__max_participants}, Start date: {
-        self.__start_date}, End date: {self.__end_date}" 
+        return f"Id: {self.__id}, Title: {self.__title}, City: {self.__city}, Number of participants: {self.__number_of_participants}" \
+        f", Maximum number of participants: {self.__max_participants}, Start date: {self.__start_date}, End date: {self.__end_date}" 
     
     def __repr__(self):
         return str(self)
