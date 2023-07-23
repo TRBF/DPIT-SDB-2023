@@ -21,6 +21,10 @@ class Repository:
             raise Exception("Entity does not exists!")
         del self.__entities_list[position]
 
+    def modify_entity(self, target_entity, modified_entity):
+        if find_position(target_entity) is not None:
+            self.__entities_list[find_position(target_entity)] = modified_entity
+
     def get_all(self):
         if len(self.__entities_list) == 0:
             raise Exception("No entities!")

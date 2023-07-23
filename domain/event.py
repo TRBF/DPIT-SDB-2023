@@ -7,7 +7,7 @@ class Event:
         self.__max_pariticipants = max_participants
         self.__start_date = start_date
         self.__end_date = title
-    
+
     def get_id(self):
         return self.__id
 
