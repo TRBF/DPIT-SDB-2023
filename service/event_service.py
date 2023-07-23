@@ -11,9 +11,9 @@ class EventService:
         """
         self.__repository = repository
     
-    def add_event(self, id, title, city, number_of_participants, max_participants, start_date, end_date):
+    def create_event(self, id, title, city, number_of_participants, max_participants, start_date, end_date):
         """
-        Adds an event to the event list if it does not exist
+        Creates and event and adds it to the event list if it does not exist
         :param id: id of the event (str)
         :param title: title of the event (str)
         :param city: city of the event (str)
@@ -44,13 +44,16 @@ class EventService:
 
     def modify_event_date(self, event, start_date, end_date):
         """
-        Modifies the event's start and end date
+        Modifies the start and end date of an event
         :param event: the event, as an object (Event)
         :param start_date: new event start date
         :param end_date: new event end date
-        :return:
+        :return: 
         """
-        
+        modified_event = event.set_start_date(start_date)
+        modified_event.set_end_date(end_date)
+        self.__repository.modify_entity(event, modified_event)
+
     def get_all_events(self):
         """
         Returns the list containing all the events
