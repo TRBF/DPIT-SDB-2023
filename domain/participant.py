@@ -3,7 +3,7 @@ class Participant:
         self.__name = name
         self.__profile_picture_link = profile_picture_link
         self.__events = list()
-    
+
     def get_name(self):
         return self.__name
     
