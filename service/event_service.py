@@ -1,4 +1,5 @@
 from domain.event import Event
+from datetime import *
 from repository.repository import Repository
 
 
@@ -85,12 +86,46 @@ class EventService:
         return filtered_events
 
     def get_event_participant_number(self, event):
-        return event.get_participant_number():
+        return event.get_participant_number()
+
+    def get_event_max_participants(self, event):
+        return event.get_max_participants()
+    
+    def get_event_duration(self, event):
+        return datetime.timedelta(event.get_end_date(), event.get_start_date()).days
 
     def get_events_in_descending_participant_number_order(self):
         """
         Returns a list containing all the events in descending order of participants
         :return: List containing all events in a descending order of participants
         """
-        self.__repository.sort(key=__get_event_participant_number)
+        self.__repository.sort(reverse=True, key=get_event_participant_number)
         return self.__repository.get_all()
+
+    def get_events_from_following_days(self, number_of_days):
+        """
+        Returns a list of the events that will start over the given number of days, ordered by maximum number of participants
+        :param number_of_days: the number of days over which the events return will start (int)
+        :return: List containing all events that will start over the next number of days in a descending order of maximum participants
+        """
+        filtered_events = list()
+        for event in self.__repository:
+            interval_until_start = datetime.timedelta(event.get_start_date(), datetime.now()).days
+            if(interval_until_start <= number_of_days and interval_until_start>=0):
+                filtered_events.append(event)
+
+        filtered_events.sort(key=get_event_max_participants)
+        return filtered_events
+
+    def get_events_from_month(self, month):
+        """
+        Returns a list of the events that will start in the given month
+        :param month: Month when the event will start (int) 
+        :return: List containing all events that will start in the given month, in a descending order of event duration 
+        """
+        filtered_events = list()
+        for event in self.__repository:
+            if event.get_start_date().month == month:
+                filtered_events.append(event)
+        filtered_events.sort(reverse = true, key=get_event_duration)
+    

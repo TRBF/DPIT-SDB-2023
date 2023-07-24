@@ -1,12 +1,15 @@
+from datetime import *
+
 class Event:
-    def __init__(self, id, title=str(), city=str(), number_of_participants=int(), max_participants=int(), start_date=int(), end_date=int()):
+    def __init__(self, id, title=str(), city=str(), number_of_participants=int(),
+        max_participants=int(), start_date=datetime.date(), end_date=datetime.date():
         self.__id = id
         self.__title = title
         self.__city = city
         self.__number_of_participants = number_of_participants
         self.__max_pariticipants = max_participants
         self.__start_date = start_date
-        self.__end_date = title
+        self.__end_date = end_date
 
     def get_id(self):
         return self.__id
