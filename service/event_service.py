@@ -56,7 +56,34 @@ class EventService:
 
     def get_all_events(self):
         """
-        Returns the list containing all the events
+        Returns a list containing all the events
+        :param filter: can be used to set a filter that will be applied to the returned list
+    
         :return: List of all events
         """
         return self.__repository.get_all() 
+            
+
+    def get_all_events_from_city(self, city):
+        """
+        Returns a list containing all events from the given city
+        :param city: the city used for filtering events
+        :return: List of all events from given city 
+        """
+        filtered_events = list()
+        for event in self.__repository:
+            if(event.get_city() == city):
+                filtered_events.append(event)
+
+        return filtered_events
+
+    def __get_event_participant_number(self, event):
+        return event.get_participant_number():
+
+    def get_events_in_descending_participant_number_order(self):
+        """
+        Returns a list containing all the events in descending order of participants
+        :return: List containing all events in a descending order of participants
+        """
+        self.__repository.sort(key=__get_event_participant_number)
+        return self.__repository.get_all()

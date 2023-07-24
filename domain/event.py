@@ -19,6 +19,9 @@ class Event:
 
     def get_number_of_participants(self):
         return self.__number_of_participants
+    
+    def set_number_of_participants(self):
+        return self.__number_of_participants
 
     def get_max_participants(self):
         return self.__max_participants
