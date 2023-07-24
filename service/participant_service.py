@@ -18,7 +18,22 @@ class ParticipantService:
         :return:
         """
         participant = Participant(name, profile_picture_link)
-        self.__repository.add()
+        self.__repository.add(participant)
+
+    def get_participant_by_name(self, name):
+        """
+        Returns the participant as an object (Participant)
+        :param id: id of participant
+        :return: Participant object
+        """
+        mock_participant = Participant(name)
+
+        if self.__repository.find_position(mock_participant) is not None:
+            return self.repository[self.__repository.find_position(mock_participant)]
+
+        return None
+
+
 
     def get_all_participants(self):
         """

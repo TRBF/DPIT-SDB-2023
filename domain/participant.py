@@ -1,5 +1,5 @@
 class Participant:
-    def __init__(self, name, profile_picture_link):
+    def __init__(self, name, profile_picture_link=str()):
         self.__name = name
         self.__profile_picture_link = profile_picture_link
         self.__events = list()

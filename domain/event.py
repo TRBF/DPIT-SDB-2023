@@ -1,5 +1,5 @@
 class Event:
-    def __init__(self, id, title, city, number_of_participants, max_participants, start_date, end_date):
+    def __init__(self, id, title=str(), city=str(), number_of_participants=int(), max_participants=int(), start_date=int(), end_date=int()):
         self.__id = id
         self.__title = title
         self.__city = city
@@ -38,7 +38,12 @@ class Event:
     def set_end_date(self):
          self.__end_date = end_date
 
-    
+    def add_participant(self):
+        if self.__number_of_participants < self.__max_participants:
+            self.__number_of_participants += 1
+            return True
+        return False
+
     def __str__(self):
         return f"Id: {self.__id}, Title: {self.__title}, City: {self.__city}, Number of participants: {self.__number_of_participants}" \
         f", Maximum number of participants: {self.__max_participants}, Start date: {self.__start_date}, End date: {self.__end_date}" 

@@ -42,27 +42,34 @@ class EventService:
         """
         self.__repository.delete(event)
 
-    def modify_event_date(self, event, start_date, end_date):
+    def modify_event(self, target_event, modified_event):
         """
-        Modifies the start and end date of an event
-        :param event: the event, as an object (Event)
-        :param start_date: new event start date
-        :param end_date: new event end date
+        Modifies an event
+        :param target_event: the original event, as an object (Event)
+        :param target_event: the modified event, as an object (Event)
         :return: 
         """
-        modified_event = event.set_start_date(start_date)
-        modified_event.set_end_date(end_date)
-        self.__repository.modify_entity(event, modified_event)
+        self.__repository.modify_entity(target_event, modified_event)
 
     def get_all_events(self):
         """
         Returns a list containing all the events
-        :param filter: can be used to set a filter that will be applied to the returned list
-    
         :return: List of all events
         """
         return self.__repository.get_all() 
             
+    def get_event_by_id(self, id):
+        """
+        Returns the event as an object (Event)
+        :param id: id of event
+        :return: Event object
+        """
+        mock_event = Event(id)
+
+        if self.__repository.find_position(mock_event) is not None:
+            return self.repository[self.__repository.find_position(mock_event)]
+
+        return None
 
     def get_all_events_from_city(self, city):
         """
@@ -77,7 +84,7 @@ class EventService:
 
         return filtered_events
 
-    def __get_event_participant_number(self, event):
+    def get_event_participant_number(self, event):
         return event.get_participant_number():
 
     def get_events_in_descending_participant_number_order(self):
