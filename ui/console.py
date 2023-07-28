@@ -56,7 +56,7 @@ class ConsoleUI:
                 self.__register,
             ],
             "organiser": [
-                self.__add_event,
+                self.__create_event,
                 self.__delete_event,
                 self.__modify_event,
                 self.__show_event_list,
@@ -127,7 +127,7 @@ class ConsoleUI:
                 f"\n ends: {event.get_end_date()}"\
                 f"\n")           
 
-    def __add_event(self):
+    def __create_event(self):
         id = input("Id: ")
         print("\n")
         name = input("Name: ")
@@ -150,7 +150,7 @@ class ConsoleUI:
         print("\n")
         ending_day = input("Ending day of event: ")
         print("\n")
-        self.__utility_service.event_service.add_event(id, name, city, number_of_participants, max_participants, datetime.date(starting_year, starting_month, starting_day), datetime.date(ending_year, ending_month, ending_day))
+        self.__utility_service.event_service.create_event(id, name, city, int(number_of_participants), int(max_participants), datetime.date(int(starting_year), int(starting_month), int(starting_day)), datetime.date(int(ending_year), int(ending_month), int(ending_day)))
         
         print("Added event: \n")
         print(f"{id}: {name}, city: {city}"\
