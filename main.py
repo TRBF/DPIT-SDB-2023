@@ -7,7 +7,8 @@ from service.utility_service import UtilityService
 from ui.console import ConsoleUI
 import datetime 
 
-event_repository = Repository([Event("UntoldEvent", "Untold", "Cluj-Napoca", 12, 55, datetime.date(2023, 7, 29), datetime.date(2023, 12, 6))]) 
+event_repository = Repository([Event("Untold Event", "Untold", "Cluj-Napoca", 12, 55, datetime.date(2023, 7, 29), datetime.date(2023, 12, 6)),
+                               Event("Electric Castle Event", "Electric", "Cluj-Napoca", 32, 55, datetime.date(2023, 7, 29), datetime.date(2023, 7, 30))]) 
 participant_repository = Repository([]) 
 
 event_service = EventService(event_repository)

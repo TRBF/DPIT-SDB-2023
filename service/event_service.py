@@ -67,7 +67,7 @@ class EventService:
         mock_event = Event(id)
 
         if self.__repository.find_position(mock_event) is not None:
-            return self.repository[self.__repository.find_position(mock_event)]
+            return self.__repository.get_all()[self.__repository.find_position(mock_event)]
 
         return None
 

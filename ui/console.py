@@ -172,7 +172,7 @@ class ConsoleUI:
         modified_event = event
         visual = [
             "Modify event id",
-            "Modify event name",
+            "Modify event title",
             "Modify event city",
             "Modify event number of participants", 
             "Modify event max number of participants",
@@ -182,7 +182,7 @@ class ConsoleUI:
         
         hints = [
             "ID: ",
-            "Name: ",
+            "Title: ",
             "City: ",
             "Number of participants: ",
             "Maximum number of participants: ",
@@ -200,17 +200,17 @@ class ConsoleUI:
         
         actions = [
             modified_event.set_id,
-            modified_event.set_name,
+            modified_event.set_title,
             modified_event.set_city,
             modified_event.set_number_of_participants,
-            modified_event.set_maximum_number_of_participants,
+            modified_event.set_max_participants,
             modified_event.set_start_date,
             modified_event.set_end_date,
         ]
 
         print(f"Successfully modified event {id}.")
 
-        actions[choice-1](data)
+        actions[int(choice)-1](data)
         self.__utility_service.event_service.modify_event(event, modified_event)
 
     def __register(self):
