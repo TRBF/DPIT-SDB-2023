@@ -31,6 +31,7 @@ class ConsoleUI:
                 "Show event list",
                 "Show events from the next 7 days (sorted by maximum participants limit)",
                 "Show events from given month (sorted by duration)",
+                "Register to event"
             ],
             "organiser": [
                 "Add event",
@@ -52,6 +53,7 @@ class ConsoleUI:
                 self.__show_event_list,
                 self.__show_events_from_next_7_days,
                 self.__show_events_from_month,
+                self.__register,
             ],
             "organiser": [
                 self.__add_event,
@@ -100,17 +102,17 @@ class ConsoleUI:
         filtered_event_list = self.__utility_service.event_service.get_events_from_following_days(7)
         for event in filtered_event_list:
             print(f"{event.get_id()}: {event.get_title()}, City: {event.get_city()}"\
-                  f"{event.get_number_of_participants()} / {event.get_max_participants()}"\
+                  f"Participants: {event.get_number_of_participants()} / {event.get_max_participants()}"\
                 f"\n Starts: {event.get_start_date()}"\
                 f"\n Ends: {event.get_end_date()}"\
                 f"\n")
     
     def __show_events_from_month(self):
         month = input(f"Input a month as a number (1-12)\n {self.__month_codes} \n")
-        event_list = self.__utility_service.event_service.get_all_events_from_month(month)
+        event_list = self.__utility_service.event_service.get_events_from_month(int(month))
         for event in event_list:
             print(f"{event.get_id()}: {event.get_title()}, city: {event.get_city()}"\
-                f"{event.get_number_of_participants()} / {event.get_max_participants()}"\
+                f"Participants: {event.get_number_of_participants()} / {event.get_max_participants()}"\
                 f"\n starts: {event.get_start_date()}"\
                 f"\n ends: {event.get_end_date()}"\
                 f"\n")           
@@ -120,7 +122,7 @@ class ConsoleUI:
         event_list = self.__utility_service.event_service.get_all_events_from_city(city)
         for event in event_list:
             print(f"{event.get_id()}: {event.get_title()}, city: {event.get_city()}"\
-                f"{event.get_number_of_participants()} / {event.get_max_participants()}"\
+                f"Participants: {event.get_number_of_participants()} / {event.get_max_participants()}"\
                 f"\n starts: {event.get_start_date()}"\
                 f"\n ends: {event.get_end_date()}"\
                 f"\n")           
@@ -152,7 +154,7 @@ class ConsoleUI:
         
         print("Added event: \n")
         print(f"{id}: {name}, city: {city}"\
-            f"{number_of_participants} / {max_participants}"\
+            f"Participants: {number_of_participants} / {max_participants}"\
             f"\n starts: {starting_day}/{starting_month}/{starting_year}"\
             f"\n ends: {ending_day}/{ending_month}/{ending_year}"\
             f"\n")           
