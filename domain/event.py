@@ -1,5 +1,5 @@
 from datetime import *
-
+
 class Event:
     def __init__(self, id, title=str(), city=str(), number_of_participants=int(),
         max_participants=int(), start_date=datetime.date(), end_date=datetime.date():
