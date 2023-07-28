@@ -23,7 +23,7 @@ class Repository:
 
     def modify_entity(self, target_entity, modified_entity):
         if find_position(target_entity) is not None:
-            self.__entities_list[find_position(target_entity)] = modified_entity
+            self.__entities_list[self.find_position(target_entity)] = modified_entity
 
     def get_all(self):
         if len(self.__entities_list) == 0:

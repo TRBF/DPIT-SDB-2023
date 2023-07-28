@@ -3,23 +3,23 @@ from domain.participant import Participant
 from service.event_service import EventService
 from service.participant_service import ParticipantService
 from service.utility_service import UtilityService
-from datetime import *
+import datetime
 
 class ConsoleUI:
     def __init__(self, event_service:EventService, participant_service:ParticipantService):
         self.__utility_service = UtilityService(event_service, participant_service)
-        self.__month_codes = f"1) January"\
-                             f"2) February"\
-                             f"3) March"\
-                             f"4) April"\
-                             f"5) May"\
-                             f"6) June"\
-                             f"7) July"\
-                             f"8) August"\
-                             f"9) September"\
-                             f"10) October"\
-                             f"11) November"\
-                             f"12) December"\
+        self.__month_codes = f"1) January \n"\
+                             f"2) February \n"\
+                             f"3) March \n"\
+                             f"4) April \n"\
+                             f"5) May \n"\
+                             f"6) June \n"\
+                             f"7) July \n"\
+                             f"8) August \n"\
+                             f"9) September \n"\
+                             f"10) October \n"\
+                             f"11) November \n"\
+                             f"12) December \n"\
 
     def __get_menu(self, name):
         menu_list_visual = {
@@ -39,44 +39,43 @@ class ConsoleUI:
                 "Show event list",
                 "Show event list from given city",
                 "Show participants from given event",
-                "Show events with participants (sorted by number of participants)"
-            ],
+                "Show events with participants (sorted by number of participants)",
+            ]
         }
 
         menu_list_actions = {
             "start": [
-                __handle_menu("participant"),
-                __handle_menu("organiser"),
+                self.__handle_menu("participant"),
+                self.__handle_menu("organiser"),
             ],
             "participant": [
-                __show_event_list(),
-                __show_events_from_next_7_days(),
-                __show_events_from_month(),
+                self.__show_event_list,
+                self.__show_events_from_next_7_days,
+                self.__show_events_from_month,
             ],
             "organiser": [
-                __add_event(),
-                __delete_event(),
-                __modify_event(),
-                __show_event_list(),
-                __show_event_list_from_city(),
+                self.__add_event,
+                self.__delete_event,
+                self.__modify_event,
+                self.__show_event_list,
+                self.__show_event_list_from_city,
             ],
+            [
+
+            ]
         }
         
-        menu_back_list = {
-            "start": None,
-            "participant": "start",
-            "organiser": "start",
-        }
         return menu_list_visual[name], menu_list_actions[name]
 
-    def __handle_menu(self, name):
-        menu_visual, menu_actions = __get_menu(name)
+    def __handle_menu(self, name, data=None):
+        menu_visual, menu_actions = self.__get_menu(name)
         entry_counter = 1
         for entry in menu:
             print(str(entry_counter) + ") " + menu_visual[entry_counter-1] + "\n")
         print("0) Back\n")
         choice = input("Input a number ( 1 - " + entry_counter + " ), or 0 to go back.")
         print("\n")
+        menu_actions[choice-1](data)
 
     def __show_event_list(self):
         event_list = utility_service.event_service.get_all_events()
@@ -142,4 +141,47 @@ class ConsoleUI:
         print("\n")
 
     def __delete_event(self, id):
-        __utility_service.event_service.
+        self.__utility_service.event_service.delete_event(self.__utility_service.event_service.get_event_by_id())
+
+    def __modify_event(self, id):
+        event = self.__utility_service.event_service.get_event_by_id(id)
+        visual = [
+            "Modify event id",
+            "Modify event name",
+            "Modify event city",
+            "Modify event number of participants", 
+            "Modify event max number of participants",
+            "Modify event start date",
+            "Modify event end date",
+        ]
+        hints = [
+            "id: ",
+            "name: ",
+            "city: ",
+            "number of participants: ",
+            "maximum number of participants: ",
+            "start date: ",
+            "end date: "
+        ]
+        entry_counter = 1
+        for entry in visual:
+            print(str(entry_counter) + ") " + entries[entry_counter-1])
+        
+        choice = input("Input a number ( 1 - " + entry_counter + " ), or 0 to go back.")
+        data = input(hints[choice-1])
+
+        actions = [
+            event.set_id,
+            event.set_name,
+            event.set_city,
+            event.set_number_of_participants,
+            event.set_maximum_number_of_participants,
+            event.set_start_date,
+            event.set_end_date,
+        ]
+
+        actions[choice-1](data)
+
+        
+        
+        

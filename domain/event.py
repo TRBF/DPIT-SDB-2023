@@ -1,4 +1,4 @@
-from datetime import *
+import datetime
 
 class Event:
     def __init__(self, id, title=str(), city=str(), number_of_participants=int(),
@@ -7,27 +7,39 @@ class Event:
         self.__title = title
         self.__city = city
         self.__number_of_participants = number_of_participants
-        self.__max_pariticipants = max_participants
+        self.__max_participants = max_participants
         self.__start_date = start_date
         self.__end_date = end_date
 
     def get_id(self):
         return self.__id
 
+    def set_id(self, id):
+        self.__id = id
+
     def get_title(self):
         return self.__title
+
+    def set_title(self, title):
+        self.__title = title
 
     def get_city(self):
         return self.__city
 
+    def set_city(self, city):
+        self.__city = city
+
     def get_number_of_participants(self):
         return self.__number_of_participants
     
-    def set_number_of_participants(self):
-        return self.__number_of_participants
+    def set_number_of_participants(self, number_of_participants):
+        self.__number_of_participants = number_of_participants
 
     def get_max_participants(self):
         return self.__max_participants
+
+    def set_max_participants(self, max_participants):
+        self.__max_participants = max_participants
 
     def get_start_date(self):
         return self.__start_date
@@ -38,7 +50,7 @@ class Event:
     def get_end_date(self):
         return self.__end_date
     
-    def set_end_date(self):
+    def set_end_date(self, end_date):
          self.__end_date = end_date
 
     def add_participant(self):

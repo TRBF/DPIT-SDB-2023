@@ -1,7 +1,6 @@
 from domain.event import Event
-from datetime import *
 from repository.repository import Repository
-
+import datetime
 
 class EventService:
     def __init__(self, repository:Repository):
@@ -99,7 +98,7 @@ class EventService:
         Returns a list containing all the events in descending order of participants
         :return: List containing all events in a descending order of participants
         """
-        self.__repository.sort(reverse=True, key=get_event_participant_number)
+        self.__repository.sort(reverse=True, key=self.get_event_participant_number)
         return self.__repository.get_all()
 
     def get_events_from_following_days(self, number_of_days):
@@ -114,7 +113,7 @@ class EventService:
             if(interval_until_start <= number_of_days and interval_until_start>=0):
                 filtered_events.append(event)
 
-        filtered_events.sort(key=get_event_max_participants)
+        filtered_events.sort(key=self.get_event_max_participants)
         return filtered_events
 
     def get_events_from_month(self, month):
@@ -127,5 +126,6 @@ class EventService:
         for event in self.__repository:
             if event.get_start_date().month == month:
                 filtered_events.append(event)
-        filtered_events.sort(reverse = true, key=get_event_duration)
+        filtered_events.sort(reverse=True, key=self.get_event_duration)
+        return filtered_events
     
