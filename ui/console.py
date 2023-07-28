@@ -45,8 +45,8 @@ class ConsoleUI:
 
         menu_list_actions = {
             "start": [
-                self.__handle_menu,
-                self.__handle_menu,
+                self.__handle_menu("participant"),
+                self.__handle_menu("organiser"),
             ],
             "participant": [
                 self.__show_event_list,
@@ -64,15 +64,19 @@ class ConsoleUI:
         
         return menu_list_visual[name], menu_list_actions[name]
 
-    def __handle_menu(self, name, data=None):
+    def __handle_menu(self, name):
         menu_visual, menu_actions = self.__get_menu(name)
         entry_counter = 1
-        for entry in menu:
+        for entry in menu_visual:
             print(str(entry_counter) + ") " + menu_visual[entry_counter-1] + "\n")
         print("0) Back\n")
         choice = input("Input a number ( 1 - " + entry_counter + " ), or 0 to go back.")
         print("\n")
-        menu_actions[choice-1](data)
+        menu_actions[choice-1]()
+
+    def run(self):
+        while True:
+            self.__handle_menu("start")
 
     def __show_event_list(self):
         event_list = utility_service.event_service.get_all_events()
@@ -137,8 +141,10 @@ class ConsoleUI:
         
         print("\n")
 
-    def __delete_event(self, id):
+    def __delete_event(self):
+        event_id = input("Input the id of the event you wish to delete: ")
         self.__utility_service.event_service.delete_event(self.__utility_service.event_service.get_event_by_id())
+        print(f"Successfully deleted event {id}.")
 
     def __modify_event(self):
         id = input("Input the id of the event you want to modify: ")
@@ -193,3 +199,5 @@ class ConsoleUI:
         event = self.__utility_service.event_service.get_event_by_id(id)
         self.__utility_service.add_participant_to_event(event_id, participant_name)
         print(f"Signed up user {participant_name} to {event_id}.")
+
+

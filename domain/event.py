@@ -2,7 +2,7 @@ import datetime
 
 class Event:
     def __init__(self, id, title=str(), city=str(), number_of_participants=int(),
-        max_participants=int(), start_date=datetime.date(), end_date=datetime.date():
+        max_participants=int(), start_date=datetime.date(2007, 12, 3), end_date=datetime.date(2007, 12, 3)):
         self.__id = id
         self.__title = title
         self.__city = city
