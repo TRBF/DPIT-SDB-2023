@@ -78,7 +78,7 @@ class EventService:
         :return: List of all events from given city 
         """
         filtered_events = list()
-        for event in self.__repository:
+        for event in self.__repository.get_all():
             if(event.get_city() == city):
                 filtered_events.append(event)
 
