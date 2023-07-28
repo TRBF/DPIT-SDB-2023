@@ -19,7 +19,7 @@ class ConsoleUI:
                              f"9) September \n"\
                              f"10) October \n"\
                              f"11) November \n"\
-                             f"12) December \n"\
+                             f"12) December \n"
 
     def __get_menu(self, name):
         menu_list_visual = {
@@ -45,8 +45,8 @@ class ConsoleUI:
 
         menu_list_actions = {
             "start": [
-                self.__handle_menu("participant"),
-                self.__handle_menu("organiser"),
+                self.__handle_menu,
+                self.__handle_menu,
             ],
             "participant": [
                 self.__show_event_list,
@@ -60,9 +60,6 @@ class ConsoleUI:
                 self.__show_event_list,
                 self.__show_event_list_from_city,
             ],
-            [
-
-            ]
         }
         
         return menu_list_visual[name], menu_list_actions[name]
@@ -143,8 +140,10 @@ class ConsoleUI:
     def __delete_event(self, id):
         self.__utility_service.event_service.delete_event(self.__utility_service.event_service.get_event_by_id())
 
-    def __modify_event(self, id):
+    def __modify_event(self):
+        id = input("Input the id of the event you want to modify: ")
         event = self.__utility_service.event_service.get_event_by_id(id)
+        modified_event = event
         visual = [
             "Modify event id",
             "Modify event name",
@@ -154,34 +153,43 @@ class ConsoleUI:
             "Modify event start date",
             "Modify event end date",
         ]
+        
         hints = [
-            "id: ",
-            "name: ",
-            "city: ",
-            "number of participants: ",
-            "maximum number of participants: ",
-            "start date: ",
-            "end date: "
+            "ID: ",
+            "Name: ",
+            "City: ",
+            "Number of participants: ",
+            "Maximum number of participants: ",
+            "Start date: ",
+            "End date: "
         ]
+        
         entry_counter = 1
         for entry in visual:
             print(str(entry_counter) + ") " + entries[entry_counter-1])
         
         choice = input("Input a number ( 1 - " + entry_counter + " ), or 0 to go back.")
         data = input(hints[choice-1])
-
+        
         actions = [
-            event.set_id,
-            event.set_name,
-            event.set_city,
-            event.set_number_of_participants,
-            event.set_maximum_number_of_participants,
-            event.set_start_date,
-            event.set_end_date,
+            modified_event.set_id,
+            modified_event.set_name,
+            modified_event.set_city,
+            modified_event.set_number_of_participants,
+            modified_event.set_maximum_number_of_participants,
+            modified_event.set_start_date,
+            modified_event.set_end_date,
         ]
 
-        actions[choice-1](data)
+        print(f"Successfully modified event {id}.")
 
-        
-        
-        
+        actions[choice-1](data)
+        self.event_service.modify_event(event, modified_event)
+
+    def __register(self):
+        participant_name = input("Input the participant name: ")
+        event_id = input("Input the event id: ")
+        participant = self.__utility_service.participant_service.get_event_by_name(name)
+        event = self.__utility_service.event_service.get_event_by_id(id)
+        self.__utility_service.add_participant_to_event(event_id, participant_name)
+        print(f"Signed up user {participant_name} to {event_id}.")
