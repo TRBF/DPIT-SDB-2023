@@ -45,8 +45,8 @@ class ConsoleUI:
 
         menu_list_actions = {
             "start": [
-                self.__handle_menu("participant"),
-                self.__handle_menu("organiser"),
+                self.__handle_menu,
+                self.__handle_menu,
             ],
             "participant": [
                 self.__show_event_list,
@@ -58,7 +58,7 @@ class ConsoleUI:
                 self.__delete_event,
                 self.__modify_event,
                 self.__show_event_list,
-                self.__show_event_list_from_city,
+                self.__show_events_from_city,
             ],
         }
         
@@ -69,26 +69,35 @@ class ConsoleUI:
         entry_counter = 1
         for entry in menu_visual:
             print(str(entry_counter) + ") " + menu_visual[entry_counter-1] + "\n")
+            entry_counter += 1
         print("0) Back\n")
-        choice = input("Input a number ( 1 - " + entry_counter + " ), or 0 to go back.")
+        choice = input("Input a number ( 1 - " + str(entry_counter-1) + " ), or 0 to go back.\n")
         print("\n")
-        menu_actions[choice-1]()
+
+        if(name == "start"):
+            if(int(choice) == 1):
+                arg = "participant"
+            else:
+                arg = "organiser"
+            menu_actions[int(choice)-1](arg)
+        else:
+            menu_actions[int(choice)-1]()
 
     def run(self):
         while True:
             self.__handle_menu("start")
 
     def __show_event_list(self):
-        event_list = utility_service.event_service.get_all_events()
+        event_list = self.__utility_service.event_service.get_all_events()
         for event in event_list:
-            print(f"{event.get_id()}: {event.get_title()}, City: {event.get_city()}"\
-                  f"{event.get_number_of_participants()} / {event.get_max_participants()}"\
-                f"\n Starts: {event.get_start_date()}"\
-                f"\n Ends: {event.get_end_date()}"\
+            print(f"{event.get_id()}: {event.get_title()}, City: {event.get_city()}, "\
+                f"Participants: {event.get_number_of_participants()} / {event.get_max_participants()}"\
+                f"\nStarts: {event.get_start_date()}"\
+                f"\nEnds: {event.get_end_date()}"\
                 f"\n")
     
     def __show_events_from_next_7_days(self):
-        filtered_event_list = utility_service.event_service.get_events_from_following_days(7)
+        filtered_event_list = self.__utility_service.event_service.get_events_from_following_days(7)
         for event in filtered_event_list:
             print(f"{event.get_id()}: {event.get_title()}, City: {event.get_city()}"\
                   f"{event.get_number_of_participants()} / {event.get_max_participants()}"\
@@ -97,15 +106,24 @@ class ConsoleUI:
                 f"\n")
     
     def __show_events_from_month(self):
-        event_list = utility_service.event_service.get_all_events()
         month = input(f"Input a month as a number (1-12)\n {self.__month_codes} \n")
+        event_list = self.__utility_service.event_service.get_all_events_from_month(month)
         for event in event_list:
-            if(event.get_start_date().month == month):
-                print(f"{event.get_id()}: {event.get_title()}, city: {event.get_city()}"\
-                    f"{event.get_number_of_participants()} / {event.get_max_participants()}"\
-                    f"\n starts: {event.get_start_date()}"\
-                    f"\n ends: {event.get_end_date()}"\
-                    f"\n")           
+            print(f"{event.get_id()}: {event.get_title()}, city: {event.get_city()}"\
+                f"{event.get_number_of_participants()} / {event.get_max_participants()}"\
+                f"\n starts: {event.get_start_date()}"\
+                f"\n ends: {event.get_end_date()}"\
+                f"\n")           
+
+    def __show_events_from_city(self):
+        city = input(f"Input the city")
+        event_list = self.__utility_service.event_service.get_all_events_from_city(city)
+        for event in event_list:
+            print(f"{event.get_id()}: {event.get_title()}, city: {event.get_city()}"\
+                f"{event.get_number_of_participants()} / {event.get_max_participants()}"\
+                f"\n starts: {event.get_start_date()}"\
+                f"\n ends: {event.get_end_date()}"\
+                f"\n")           
 
     def __add_event(self):
         id = input("Id: ")
@@ -130,7 +148,7 @@ class ConsoleUI:
         print("\n")
         ending_day = input("Ending day of event: ")
         print("\n")
-        __utility_service.event_service.add_event(id, name, city, number_of_participants, max_participants, datetime.date(starting_year, starting_month, starting_day), datetime.date(ending_year, ending_month, ending_day))
+        self.__utility_service.event_service.add_event(id, name, city, number_of_participants, max_participants, datetime.date(starting_year, starting_month, starting_day), datetime.date(ending_year, ending_month, ending_day))
         
         print("Added event: \n")
         print(f"{id}: {name}, city: {city}"\
@@ -143,8 +161,8 @@ class ConsoleUI:
 
     def __delete_event(self):
         event_id = input("Input the id of the event you wish to delete: ")
-        self.__utility_service.event_service.delete_event(self.__utility_service.event_service.get_event_by_id())
-        print(f"Successfully deleted event {id}.")
+        self.__utility_service.event_service.delete_event(self.__utility_service.event_service.get_event_by_id(event_id))
+        print(f"Successfully deleted event {event_id}.")
 
     def __modify_event(self):
         id = input("Input the id of the event you want to modify: ")
@@ -172,10 +190,11 @@ class ConsoleUI:
         
         entry_counter = 1
         for entry in visual:
-            print(str(entry_counter) + ") " + entries[entry_counter-1])
-        
-        choice = input("Input a number ( 1 - " + entry_counter + " ), or 0 to go back.")
-        data = input(hints[choice-1])
+            print(str(entry_counter) + ") " + visual[entry_counter-1])
+            entry_counter+=1
+
+        choice = input("Input a number ( 1 - " + str(entry_counter-1) + " ), or 0 to go back.")
+        data = input(hints[int(choice)-1])
         
         actions = [
             modified_event.set_id,
@@ -190,13 +209,13 @@ class ConsoleUI:
         print(f"Successfully modified event {id}.")
 
         actions[choice-1](data)
-        self.event_service.modify_event(event, modified_event)
+        self.__utility_service.event_service.modify_event(event, modified_event)
 
     def __register(self):
         participant_name = input("Input the participant name: ")
         event_id = input("Input the event id: ")
-        participant = self.__utility_service.participant_service.get_event_by_name(name)
-        event = self.__utility_service.event_service.get_event_by_id(id)
+        participant = self.__utility_service.participant_service.get_event_by_name(participant_name)
+        event = self.__utility_service.event_service.get_event_by_id(event_id)
         self.__utility_service.add_participant_to_event(event_id, participant_name)
         print(f"Signed up user {participant_name} to {event_id}.")
 
